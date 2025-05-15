@@ -1,0 +1,63 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "resultpage",
+            "request": "launch",
+            "mainClass": "resultpage",
+            "projectName": "java project_76f987c7"
+        },
+        {
+            "type": "java",
+            "name": "swingTrial2",
+            "request": "launch",
+            "mainClass": "swingTrial2",
+            "projectName": "java project_76f987c7"
+        },
+        {
+            "type": "java",
+            "name": "LoginPageFinal",
+            "request": "launch",
+            "mainClass": "LoginPageFinal",
+            "projectName": "java project_1c6284d3"
+        },
+        {
+            "type": "java",
+            "name": "resultpage",
+            "request": "launch",
+            "mainClass": "resultpage",
+            "projectName": "java project_1c6284d3"
+        },
+        {
+            "type": "java",
+            "name": "ThankYouPage",
+            "request": "launch",
+            "mainClass": "ThankYouPage",
+            "projectName": "java project_1c6284d3"
+        },
+        {
+            "type": "java",
+            "name": "swingTrial2",
+            "request": "launch",
+            "mainClass": "swingTrial2",
+            "projectName": "java project_1c6284d3"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "swingTrial2",
+            "request": "launch",
+            "mainClass": "swingTrial2",
+            "projectName": "java project_73b929cd"
+        }
+    ]
+}
