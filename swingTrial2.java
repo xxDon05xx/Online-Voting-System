@@ -31,8 +31,9 @@ class Voter {
     public void setVoterId(String voterId) {
         this.voterId = voterId;
     }
-    public void setis_admin(String is_admin){
-        this.is_admin=is_admin;
+
+    public void setis_admin(String is_admin) {
+        this.is_admin = is_admin;
     }
 
     public String getRollNo() {
@@ -50,7 +51,8 @@ class Voter {
     public String getVoterId() {
         return voterId;
     }
-    public String getis_admin(){
+
+    public String getis_admin() {
         return is_admin;
     }
 }
@@ -61,7 +63,8 @@ class VotingSystem {
 
     public VotingSystem() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/votingsys", "root", "mysql"); // Adjust credentials
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/votingsys", "root", "mysql"); // Adjust
+                                                                                                                // credentials
             System.out.println("Database connected successfully.");
         } catch (SQLException e) {
             System.out.println("Database connection failed.");
@@ -93,9 +96,9 @@ class VotingSystem {
             statement.setString(1, voterId);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
-            
+
             if (resultSet.next()) {
-                Voter vot_var=new Voter(resultSet.getString("roll_no"), resultSet.getString("name"));
+                Voter vot_var = new Voter(resultSet.getString("roll_no"), resultSet.getString("name"));
                 vot_var.setis_admin(resultSet.getString("admin"));
                 return vot_var;
             }
@@ -104,7 +107,7 @@ class VotingSystem {
         }
         return null;
     }
-    
+
     public String generateVoterId() {
         Random random = new Random();
         return "VOTER" + (10000 + random.nextInt(90000));
@@ -139,7 +142,7 @@ public class swingTrial2 extends JPanel {
 
         // Load background image
         try {
-            backgroundImage = ImageIO.read(new File("C:\\Users\\dinos\\Documents\\java project\\WhatsApp Image 2025-01-31 at 14.25.24_0612e2d3.jpg"));
+            backgroundImage = ImageIO.read(new File("WhatsApp Image 2025-01-31 at 14.25.24_0612e2d3.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
             backgroundImage = null;
@@ -180,7 +183,7 @@ public class swingTrial2 extends JPanel {
         nameLabel.setBounds(510, 290, 150, 25);
         panel.add(nameLabel);
 
-        RoundedTextField nameField = new RoundedTextField();                           //*************** */
+        RoundedTextField nameField = new RoundedTextField(); // *************** */
         nameField.setBounds(650, 290, 200, 25);
         panel.add(nameField);
 
@@ -228,7 +231,7 @@ public class swingTrial2 extends JPanel {
                 Voter voter = authSystem.authenticateRollNoAndName(rollNo, name);
                 if (voter != null) {
                     authSystem.storePasswordAndVoterId(voter, password);
-                    resultLabel.setText("Registration successfull! Your Voter ID: "+voter.getVoterId());
+                    resultLabel.setText("Registration successfull! Your Voter ID: " + voter.getVoterId());
                 } else {
                     resultLabel.setText("Invalid roll number or name. Registration failed.");
                 }
@@ -297,32 +300,28 @@ public class swingTrial2 extends JPanel {
 
                 Voter voter = authSystem.authenticateVoterIdAndPassword(voterId, password);
                 if (voter != null) {
-                    resultLabel.setText("Login successful! Redirecting..."+voter.getis_admin()+"cvbj");
+                    resultLabel.setText("Login successful! Redirecting..." + voter.getis_admin() + "cvbj");
                     SwingUtilities.getWindowAncestor(swingTrial2.this).dispose();
-                    if("True".equals(voter.getis_admin()))
-                    {
-                    //___________________________________
-                   
-                   
-                    SwingUtilities.invokeLater(() -> {
-                        
-                        adminPage2 votingPage = new adminPage2(authSystem.connection);
-                        votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        votingPage.setVisible(true);
-                    });
-                    
-                    }
-                    else
-                    {
+                    if ("True".equals(voter.getis_admin())) {
+                        // ___________________________________
+
                         SwingUtilities.invokeLater(() -> {
-                            votepage VotingPage = new votepage(authSystem.connection,voterId);
+
+                            adminPage2 votingPage = new adminPage2(authSystem.connection);
+                            votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            votingPage.setVisible(true);
+                        });
+
+                    } else {
+                        SwingUtilities.invokeLater(() -> {
+                            votepage VotingPage = new votepage(authSystem.connection, voterId);
                             VotingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             VotingPage.setVisible(true);
                         });
                     }
-                    //___________________________________
+                    // ___________________________________
                 }
-                    // Redirect to home page
+                // Redirect to home page
                 else {
                     resultLabel.setText("Invalid Voter ID or password.");
                 }
@@ -332,82 +331,83 @@ public class swingTrial2 extends JPanel {
         addHeaderComponents(panel);
         return panel;
     }
-    //_____________________________________________________________________
+    // _____________________________________________________________________
 
     public class RoundedTextField extends JTextField {
         private int arcSize = 20; // Adjust the roundness of corners
-    
+
         public RoundedTextField() {
             setOpaque(false); // Make background transparent
             setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Padding inside text field
         }
-    
+
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    
+
             // Background
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), arcSize, arcSize);
-    
+
             super.paintComponent(g);
             g2.dispose();
         }
-    
+
         @Override
         protected void paintBorder(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    
+
             // Border
             g2.setColor(getForeground());
             g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, arcSize, arcSize);
-            
+
             g2.dispose();
         }
     }
 
-    //______________________________________________________________________________
+    // ______________________________________________________________________________
     public class RoundedPASSField extends JPasswordField {
         private int arcSize = 20; // Adjust the roundness of corners
-    
+
         public RoundedPASSField() {
             setOpaque(false); // Make background transparent
             setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Padding inside text field
         }
-    
+
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    
+
             // Background
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), arcSize, arcSize);
-    
+
             super.paintComponent(g);
             g2.dispose();
         }
-    
+
         @Override
         protected void paintBorder(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    
+
             // Border
             g2.setColor(getForeground());
             g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, arcSize, arcSize);
-            
+
             g2.dispose();
         }
     }
 
-    //______________________________________________________________________________
-    //___________________________________________________________________
+    // ______________________________________________________________________________
+    // ___________________________________________________________________
 
     public class RoundedButton extends JButton {
         private boolean showBorder = true; // Default: border is disabled
+
         public RoundedButton(String text) {
             super(text);
             setContentAreaFilled(false);
@@ -415,10 +415,12 @@ public class swingTrial2 extends JPanel {
             setOpaque(false);
             setBorderPainted(false);
         }
+
         public void setshowBorder(boolean showBorder) {
             this.showBorder = showBorder;
             repaint(); // Redraw the button when the border visibility changes
         }
+
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
@@ -428,21 +430,21 @@ public class swingTrial2 extends JPanel {
             super.paintComponent(g2);
             g2.dispose();
         }
-    
+
         @Override
         protected void paintBorder(Graphics g) {
-            if(showBorder){
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(Color.DARK_GRAY);
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
-            g2.dispose();
-        }
+            if (showBorder) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(Color.DARK_GRAY);
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
+                g2.dispose();
+            }
         }
     }
 
-    //_______________________________________________________________________________________________
-   
+    // _______________________________________________________________________________________________
+
     private void addHeaderComponents(JPanel panel) {
         JLabel header = new JLabel("VOTING SYSTEM", SwingConstants.LEFT);
         header.setFont(new Font("Verdana", Font.BOLD, 24));
@@ -459,8 +461,8 @@ public class swingTrial2 extends JPanel {
         aboutUsLabel.setContentAreaFilled(false);
 
         aboutUsLabel.addActionListener(e -> JOptionPane.showMessageDialog(this, "About Us\n" + //
-                        "\n" + //
-                        "Welcome to our Voting Sytem\n,A secure, transparent, and user-friendly online voting platform \n designed to make elections seamless and trustworthy. \nOur mission is to ensure fairness, accuracy, and accessibility through advanced \n security measures, real-time results, and a simple voting process. With robust encryption,\n strict authentication, and a commitment to transparency, we empower democracy by making \n every vote count. Whether for student elections, corporate decisions, or large-scale \npolls, our system guarantees reliability, efficiency, and integrity in every election. Vote with \n confidence—because your voice matters!"));
+                "\n" + //
+                "Welcome to our Voting Sytem\n,A secure, transparent, and user-friendly online voting platform \n designed to make elections seamless and trustworthy. \nOur mission is to ensure fairness, accuracy, and accessibility through advanced \n security measures, real-time results, and a simple voting process. With robust encryption,\n strict authentication, and a commitment to transparency, we empower democracy by making \n every vote count. Whether for student elections, corporate decisions, or large-scale \npolls, our system guarantees reliability, efficiency, and integrity in every election. Vote with \n confidence—because your voice matters!"));
         panel.add(aboutUsLabel);
 
         RoundedButton howItWorksLabel = new RoundedButton("How It Works");
@@ -508,7 +510,6 @@ public class swingTrial2 extends JPanel {
         g2.fillRoundRect(200, 150, 300, 400, 30, 30);
     }
 
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("Voting System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -516,6 +517,6 @@ public class swingTrial2 extends JPanel {
         frame.setContentPane(new swingTrial2());
         frame.setVisible(true);
     }
-    //______________________________________________
+    // ______________________________________________
 
 }

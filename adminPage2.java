@@ -11,94 +11,89 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-class CustomPanel extends JPanel {
-    private Image backgroundImage;
-
-    public CustomPanel(Image backgroundImage) {
-        
-    }
-}
-
 public class adminPage2 extends JFrame {
     private JButton aboutUsButton, howItWorksButton, signOutButton, hostElectionButton, resultsButton;
     private JLabel greetingLabel;
-    
-    //_____________________________________________________________________
 
-public class RoundedTextField extends JTextField {
-    private int arcSize = 20; // Adjust the roundness of corners
+    // _____________________________________________________________________
 
-    public RoundedTextField() {
-        setOpaque(false); // Make background transparent
-        setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Padding inside text field
+    public class RoundedTextField extends JTextField {
+        private int arcSize = 20; // Adjust the roundness of corners
+
+        public RoundedTextField() {
+            setOpaque(false); // Make background transparent
+            setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Padding inside text field
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            // Background
+            g2.setColor(getBackground());
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), arcSize, arcSize);
+
+            super.paintComponent(g);
+            g2.dispose();
+        }
+
+        @Override
+        protected void paintBorder(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            // Border
+            g2.setColor(getForeground());
+            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, arcSize, arcSize);
+
+            g2.dispose();
+        }
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    // ______________________________________________________________________________
 
-        // Background
-        g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), arcSize, arcSize);
+    // ___________________________________________________________________
 
-        super.paintComponent(g);
-        g2.dispose();
+    public class RoundedButton extends JButton {
+        public RoundedButton(String text) {
+            super(text);
+            setContentAreaFilled(false);
+            setFocusPainted(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(getBackground());
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+            super.paintComponent(g2);
+            g2.dispose();
+        }
+
+        @Override
+        protected void paintBorder(Graphics g) {
+
+        }
     }
 
-    @Override
-    protected void paintBorder(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    private Image backgroundImage;
 
-        // Border
-        g2.setColor(getForeground());
-        g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, arcSize, arcSize);
-        
-        g2.dispose();
-    }
-}
+    private void drawBackground(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        if (backgroundImage != null) {
+            g2.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        } else {
+            g2.setColor(new Color(0xe0e0e0));
+            g2.fillRect(0, 0, getWidth(), getHeight());
+        }
+        g2.setColor(new Color(0xa4dfd8));
+        g2.fillRect(0, 0, getWidth(), 75);
 
-//______________________________________________________________________________
-
-//___________________________________________________________________
-
-public class RoundedButton extends JButton {
-    public RoundedButton(String text) {
-        super(text);
-        setContentAreaFilled(false);
-        setFocusPainted(false);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-        super.paintComponent(g2);
-        g2.dispose();
-    }
-
-    @Override
-    protected void paintBorder(Graphics g) {
-        
-    }
-}
-private Image backgroundImage;
-private void drawBackground(Graphics g) {
-    Graphics2D g2 = (Graphics2D) g;
-    if (backgroundImage != null) {
-        g2.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-    } else {
-        g2.setColor(new Color(0xe0e0e0));
-        g2.fillRect(0, 0, getWidth(), getHeight());
-    }
-    g2.setColor(new Color(0xa4dfd8));
-    g2.fillRect(0, 0, getWidth(), 75);
-    
-}
-//______________________________________________________________________________________________________
+    // ______________________________________________________________________________________________________
     public adminPage2(Connection connection1) {
         // Set up the frame
         setTitle("Custom Voting System");
@@ -107,10 +102,8 @@ private void drawBackground(Graphics g) {
         setLocationRelativeTo(null);
 
         // Load background image if available
-        backgroundImage = new ImageIcon("C:\\Program Files\\java project\\WhatsApp Image 2025-01-31 at 14.25.24_0612e2d3.jpg").getImage(); // Replace with actual path
-
-        // Set up the custom panel with background and custom drawing
-        JPanel customPanel = new JPanel(null) {
+        backgroundImage = new ImageIcon("WhatsApp Image 2025-01-31 at 14.25.24_0612e2d3.jpg").getImage();
+JPanel customPanel = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
                 drawBackground(g);
@@ -133,8 +126,8 @@ private void drawBackground(Graphics g) {
         aboutUsButton.setContentAreaFilled(false);
 
         aboutUsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "About Us\n" + //
-                        "\n" + //
-                        "Welcome to our Voting Sytem\n,A secure, transparent, and user-friendly online voting platform \n designed to make elections seamless and trustworthy. \nOur mission is to ensure fairness, accuracy, and accessibility through advanced \n security measures, real-time results, and a simple voting process. With robust encryption,\n strict authentication, and a commitment to transparency, we empower democracy by making \n every vote count. Whether for student elections, corporate decisions, or large-scale \npolls, our system guarantees reliability, efficiency, and integrity in every election. Vote with \n confidence—because your voice matters!"));
+                "\n" + //
+                "Welcome to our Voting Sytem\n,A secure, transparent, and user-friendly online voting platform \n designed to make elections seamless and trustworthy. \nOur mission is to ensure fairness, accuracy, and accessibility through advanced \n security measures, real-time results, and a simple voting process. With robust encryption,\n strict authentication, and a commitment to transparency, we empower democracy by making \n every vote count. Whether for student elections, corporate decisions, or large-scale \npolls, our system guarantees reliability, efficiency, and integrity in every election. Vote with \n confidence—because your voice matters!"));
         customPanel.add(aboutUsButton);
 
         // How It Works button
@@ -154,20 +147,21 @@ private void drawBackground(Graphics g) {
         signOutButton.setFont(new Font("Verdana", Font.PLAIN, 13));
         signOutButton.setBackground(new Color(0xffffff)); // White background
         signOutButton.setForeground(new Color(0x3f585c));
-        
+
         signOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                    /*swingTrial2 votingPage = new swingTrial2(connection1);
-                    votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);                       //@@@@@@@@@@@@@
-                    votingPage.setVisible(true);*/
+                    /*
+                     * swingTrial2 votingPage = new swingTrial2(connection1);
+                     * votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //@@@@@@@@@@@@@
+                     * votingPage.setVisible(true);
+                     */
                 });
             }
         }); // <-- Closing bracket was missing here
-        
+
         customPanel.add(signOutButton);
-        
 
         // Greeting Label ("Hey, Admin")
         greetingLabel = new JLabel("Hey, Admin");
@@ -179,20 +173,19 @@ private void drawBackground(Graphics g) {
         hostElectionButton = new RoundedButton("Host Election");
         hostElectionButton.setBounds(370, 250, 170, 120); // Position for the first button box
         hostElectionButton.setFont(new Font("Verdana", Font.PLAIN, 18));
-        hostElectionButton.setBackground(new Color(0x3d7777)); //bright light green
+        hostElectionButton.setBackground(new Color(0x3d7777)); // bright light green
         hostElectionButton.setForeground(new Color(0xffffff));
-        hostElectionButton.addActionListener(new ActionListener(){
+        hostElectionButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                //SwingUtilities.getWindowAncestor(adminPage2.this).dispose();
-                
-                    SwingUtilities.invokeLater(() -> {
-                        adminPageshow votingPage = new adminPageshow(connection1);
-                        votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        votingPage.setVisible(true);
-                    });  
-                    
-                
+            public void actionPerformed(ActionEvent e) {
+                // SwingUtilities.getWindowAncestor(adminPage2.this).dispose();
+
+                SwingUtilities.invokeLater(() -> {
+                    adminPageshow votingPage = new adminPageshow(connection1);
+                    votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    votingPage.setVisible(true);
+                });
+
             }
         });
         customPanel.add(hostElectionButton);
@@ -201,20 +194,19 @@ private void drawBackground(Graphics g) {
         resultsButton = new RoundedButton("Results");
         resultsButton.setBounds(570, 250, 170, 120); // Position for the second button box
         resultsButton.setFont(new Font("Verdana", Font.PLAIN, 18));
-        resultsButton.setBackground(new Color(0x62bfbc)); //dark light green
+        resultsButton.setBackground(new Color(0x62bfbc)); // dark light green
         resultsButton.setForeground(new Color(0xffffff));
-        resultsButton.addActionListener(new ActionListener(){
+        resultsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                //SwingUtilities.getWindowAncestor(adminPage2.this).dispose();
-                
-                    SwingUtilities.invokeLater(() -> {
-                        resultfin resPage = new resultfin(connection1);
-                        resPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        resPage.setVisible(true);
-                    });  
-                    
-                
+            public void actionPerformed(ActionEvent e) {
+                // SwingUtilities.getWindowAncestor(adminPage2.this).dispose();
+
+                SwingUtilities.invokeLater(() -> {
+                    resultfin resPage = new resultfin(connection1);
+                    resPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    resPage.setVisible(true);
+                });
+
             }
         });
         customPanel.add(resultsButton);
@@ -223,10 +215,12 @@ private void drawBackground(Graphics g) {
         add(customPanel);
     }
 
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            adminPage2 votingPage = new adminPage2();
-            votingPage.setVisible(true);
-        });
-    }*/
+    /*
+     * public static void main(String[] args) {
+     * SwingUtilities.invokeLater(() -> {
+     * adminPage2 votingPage = new adminPage2();
+     * votingPage.setVisible(true);
+     * });
+     * }
+     */
 }

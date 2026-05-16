@@ -8,23 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.*;
 
-class CustomPanel extends JPanel {
-    private Image backgroundImage;
-
-    public CustomPanel(Image backgroundImage) {
-       
-    }
-
-}
-
 public class adminPageshow extends JFrame implements ActionListener {
     private JButton addCandidateButton, aboutUsButton, howItWorksButton, signOutButton, manageVoterButton, doneButton;
     private JTextField endDateField;
     private JPanel candidateListPanel; // Panel to hold candidate labels
     private ArrayList<String> candidates; // List to store candidate names
     private Connection connection;
-    
+
     private Image backgroundImage;
+
     private void drawBackground(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         if (backgroundImage != null) {
@@ -40,10 +32,11 @@ public class adminPageshow extends JFrame implements ActionListener {
         g2.setColor(new Color(0x3f585c));
         g2.fillRoundRect(200, 150, 300, 400, 30, 30);
     }
-    //-----------------------------------------------------------
+
+    // -----------------------------------------------------------
     public adminPageshow(Connection _connection) {
         // Set up the frame
-        connection=_connection;
+        connection = _connection;
         setTitle("Custom Voting System");
         setSize(1100, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,16 +46,16 @@ public class adminPageshow extends JFrame implements ActionListener {
         candidates = new ArrayList<>();
 
         // Load background image if available
-        backgroundImage = new ImageIcon("C:\\Program Files\\java project\\WhatsApp Image 2025-01-31 at 14.25.24_0612e2d3.jpg").getImage(); // Replace with actual path
+        backgroundImage = new ImageIcon("WhatsApp Image 2025-01-31 at 14.25.24_0612e2d3.jpg").getImage(); // Background
+                                                                                                          // image
 
         // Set up the custom panel with background and custom drawing
-        JPanel customPanel = new JPanel(null){
+        JPanel customPanel = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
                 drawBackground(g);
             }
         };
-       
 
         // Panel to hold candidate labels
         candidateListPanel = new JPanel();
@@ -74,31 +67,31 @@ public class adminPageshow extends JFrame implements ActionListener {
         refreshCandidateList();
 
         customPanel.add(candidateListPanel);
-        JLabel candN =new JLabel("Cand_Name |Cand_ID");
+        JLabel candN = new JLabel("Cand_Name |Cand_ID");
         candN.setBounds(20, 0, 200, 50);
         candN.setFont(new Font("Arial", Font.BOLD, 18));
         candN.setForeground(Color.white);
         candidateListPanel.add(candN);
 
-        JLabel line =new JLabel("____________________");
+        JLabel line = new JLabel("____________________");
         line.setBounds(20, 9, 200, 50);
         line.setFont(new Font("Arial", Font.BOLD, 18));
         line.setForeground(Color.white);
         candidateListPanel.add(line);
 
-        JLabel adcandN =new JLabel("Adding Candidates");
+        JLabel adcandN = new JLabel("Adding Candidates");
         adcandN.setBounds(590, 200, 200, 50);
         adcandN.setFont(new Font("Arial", Font.BOLD, 21));
         adcandN.setForeground(new Color(0x3f585c));
         customPanel.add(adcandN);
 
         JLabel adcandNdes = new JLabel("<html><div style='text-align: center;'>"
-        + "This page allows the admin<br>"
-        + "to enter a candidate’s name and<br>"
-        + "party and save them to the database.<br>"
-        + "The candidate list updates automatically<br>"
-        + "after adding a new entry."
-        + "</div></html>");
+                + "This page allows the admin<br>"
+                + "to enter a candidate’s name and<br>"
+                + "party and save them to the database.<br>"
+                + "The candidate list updates automatically<br>"
+                + "after adding a new entry."
+                + "</div></html>");
 
         adcandNdes.setBounds(490, 300, 400, 120); // Centered width & correct height
         adcandNdes.setFont(new Font("Arial", Font.BOLD, 18));
@@ -106,7 +99,6 @@ public class adminPageshow extends JFrame implements ActionListener {
         adcandNdes.setHorizontalAlignment(SwingConstants.CENTER); // Center horizontally
         adcandNdes.setVerticalAlignment(SwingConstants.CENTER); // Center vertically
         customPanel.add(adcandNdes);
-
 
         // Add Candidate button setup
         addCandidateButton = new RoundedButton("Add Candidate");
@@ -122,7 +114,6 @@ public class adminPageshow extends JFrame implements ActionListener {
         votingSystemLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Set font style and size
         votingSystemLabel.setBounds(20, 20, 200, 30); // Positioning for the label
         customPanel.add(votingSystemLabel);
- 
 
         // About Us button
         aboutUsButton = new RoundedButton("About Us");
@@ -134,8 +125,8 @@ public class adminPageshow extends JFrame implements ActionListener {
         aboutUsButton.setContentAreaFilled(false);
 
         aboutUsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "About Us\n" + //
-                        "\n" + //
-                        "Welcome to our Voting Sytem\n,A secure, transparent, and user-friendly online voting platform \n designed to make elections seamless and trustworthy. \nOur mission is to ensure fairness, accuracy, and accessibility through advanced \n security measures, real-time results, and a simple voting process. With robust encryption,\n strict authentication, and a commitment to transparency, we empower democracy by making \n every vote count. Whether for student elections, corporate decisions, or large-scale \npolls, our system guarantees reliability, efficiency, and integrity in every election. Vote with \n confidence—because your voice matters!"));
+                "\n" + //
+                "Welcome to our Voting Sytem\n,A secure, transparent, and user-friendly online voting platform \n designed to make elections seamless and trustworthy. \nOur mission is to ensure fairness, accuracy, and accessibility through advanced \n security measures, real-time results, and a simple voting process. With robust encryption,\n strict authentication, and a commitment to transparency, we empower democracy by making \n every vote count. Whether for student elections, corporate decisions, or large-scale \npolls, our system guarantees reliability, efficiency, and integrity in every election. Vote with \n confidence—because your voice matters!"));
         customPanel.add(aboutUsButton);
 
         // How It Works button
@@ -160,9 +151,11 @@ public class adminPageshow extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                    /*swingTrial2 votingPage = new swingTrial2(connection1);
-                    votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);                       //@@@@@@@@@@@@@
-                    votingPage.setVisible(true);*/
+                    /*
+                     * swingTrial2 votingPage = new swingTrial2(connection1);
+                     * votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //@@@@@@@@@@@@@
+                     * votingPage.setVisible(true);
+                     */
                 });
             }
         }); // <-- Closing bracket was missing here
@@ -170,10 +163,13 @@ public class adminPageshow extends JFrame implements ActionListener {
         customPanel.add(signOutButton);
 
         // Manage Voter button, positioned next to the candidate buttons
-        /*manageVoterButton = new JButton("Manage Voter");
-        manageVoterButton.setBounds(600, 250, 150, 30); // Adjusted position
-        manageVoterButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Manage Voter functionality here."));
-        customPanel.add(manageVoterButton);*/
+        /*
+         * manageVoterButton = new JButton("Manage Voter");
+         * manageVoterButton.setBounds(600, 250, 150, 30); // Adjusted position
+         * manageVoterButton.addActionListener(e -> JOptionPane.showMessageDialog(this,
+         * "Manage Voter functionality here."));
+         * customPanel.add(manageVoterButton);
+         */
 
         // Done button setup
         doneButton = new RoundedButton("Done");
@@ -188,7 +184,7 @@ public class adminPageshow extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                        
+
                     adminPage2 votingPage = new adminPage2(connection);
                     votingPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     votingPage.setVisible(true);
@@ -200,9 +196,11 @@ public class adminPageshow extends JFrame implements ActionListener {
         // Add custom panel to frame
         add(customPanel);
     }
-    //--------------------------------------------------------
+
+    // --------------------------------------------------------
     public class RoundedButton extends JButton {
         private boolean showBorder = true; // Default: border is disabled
+
         public RoundedButton(String text) {
             super(text);
             setContentAreaFilled(false);
@@ -210,10 +208,12 @@ public class adminPageshow extends JFrame implements ActionListener {
             setOpaque(false);
             setBorderPainted(false);
         }
+
         public void setshowBorder(boolean showBorder) {
             this.showBorder = showBorder;
             repaint(); // Redraw the button when the border visibility changes
         }
+
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
@@ -223,125 +223,126 @@ public class adminPageshow extends JFrame implements ActionListener {
             super.paintComponent(g2);
             g2.dispose();
         }
-    
+
         @Override
         protected void paintBorder(Graphics g) {
-            if(showBorder){
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(Color.DARK_GRAY);
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
-            g2.dispose();
-        }
+            if (showBorder) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(Color.DARK_GRAY);
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
+                g2.dispose();
+            }
         }
     }
-    //--------------------------------------------------------------------------------
-    
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
     // Method to show a dialog for adding a new candidate
     private void showAddCandidateDialog() {
-    JTextField candidateNameField = new JTextField(15);
-    JTextField candidatePartyField = new JTextField(15);
-    
-    // JTextArea for candidate motives & agenda
-    JTextArea candidateAgendaArea = new JTextArea(5, 30); // 5 rows, 30 columns
-    candidateAgendaArea.setLineWrap(true);
-    candidateAgendaArea.setWrapStyleWord(true);
-    
-    // JScrollPane for scrolling if needed
-    JScrollPane scrollPane = new JScrollPane(candidateAgendaArea);
-    scrollPane.setPreferredSize(new Dimension(300, 100));
+        JTextField candidateNameField = new JTextField(15);
+        JTextField candidatePartyField = new JTextField(15);
 
-    JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
-    panel.add(new JLabel("Candidate Name:"));
-    panel.add(candidateNameField);
-    panel.add(new JLabel("Candidate Party:"));
-    panel.add(candidatePartyField);
-    panel.add(new JLabel("Motives & Agenda:"));
-    panel.add(scrollPane); // Add scrollPane instead of JTextArea directly
+        // JTextArea for candidate motives & agenda
+        JTextArea candidateAgendaArea = new JTextArea(5, 30); // 5 rows, 30 columns
+        candidateAgendaArea.setLineWrap(true);
+        candidateAgendaArea.setWrapStyleWord(true);
 
-    int result = JOptionPane.showConfirmDialog(this, panel, "Add Candidate", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        // JScrollPane for scrolling if needed
+        JScrollPane scrollPane = new JScrollPane(candidateAgendaArea);
+        scrollPane.setPreferredSize(new Dimension(300, 100));
 
-    if (result == JOptionPane.OK_OPTION) {
-        String candidateName = candidateNameField.getText();
-        String candidateParty = candidatePartyField.getText();
-        String candidateDesc = candidateAgendaArea.getText();
+        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+        panel.add(new JLabel("Candidate Name:"));
+        panel.add(candidateNameField);
+        panel.add(new JLabel("Candidate Party:"));
+        panel.add(candidatePartyField);
+        panel.add(new JLabel("Motives & Agenda:"));
+        panel.add(scrollPane); // Add scrollPane instead of JTextArea directly
 
-        // Add candidate to the database
-        ADDcandidate(candidateName, candidateParty, candidateDesc);
-        refreshCandidateList();
+        int result = JOptionPane.showConfirmDialog(this, panel, "Add Candidate", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String candidateName = candidateNameField.getText();
+            String candidateParty = candidatePartyField.getText();
+            String candidateDesc = candidateAgendaArea.getText();
+
+            // Add candidate to the database
+            ADDcandidate(candidateName, candidateParty, candidateDesc);
+            refreshCandidateList();
+        }
     }
-}
-
 
     // Method to refresh the candidate list display
     private void refreshCandidateList() {
-        candidateListPanel.removeAll(); 
+        candidateListPanel.removeAll();
         fetchCandidates(); // Fetch latest candidates
-        
+
         candidateListPanel.setLayout(null); // Ensure manual positioning works
         candidateListPanel.setOpaque(false); // Make transparent if necessary
-    
+
         int Ypos = 50;
         int gap = 30;
-        
+
         for (String candidate : candidates) {
             JLabel candidateLabel = new JLabel(candidate);
             candidateLabel.setBounds(10, Ypos, 200, 50);
             candidateLabel.setFont(new Font("Arial", Font.PLAIN, 18));
             candidateLabel.setForeground(Color.white);
             candidateListPanel.add(candidateLabel);
-    
+
             Ypos += gap; // Increase position for next label
         }
-    
+
         candidateListPanel.revalidate();
         candidateListPanel.repaint();
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
         // Action listener not needed anymore as we have replaced the submit button
     }
-//__________________________________________
-public void ADDcandidate(String candidateName, String candidateParty, String candidateDesc) {
-    
 
-    try {
-        String query = "insert into candidates (cand_ID,cand_name,cand_desc) values(?,?,?)";
-        PreparedStatement stmt = connection.prepareStatement(query);
-        stmt.setString(1, candidateParty);
-        stmt.setString(2, candidateName);
-        stmt.setString(3, candidateDesc);
-        stmt.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
+    // __________________________________________
+    public void ADDcandidate(String candidateName, String candidateParty, String candidateDesc) {
+
+        try {
+            String query = "insert into candidates (cand_ID,cand_name,cand_desc) values(?,?,?)";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, candidateParty);
+            stmt.setString(2, candidateName);
+            stmt.setString(3, candidateDesc);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-}
- public void fetchCandidates() {
-    candidates.clear(); // Clear the list before fetching new data
+
+    public void fetchCandidates() {
+        candidates.clear(); // Clear the list before fetching new data
         String query = "SELECT * FROM candidates";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-             ResultSet resultSet = statement.executeQuery();
-            
+            ResultSet resultSet = statement.executeQuery();
+
             while (resultSet.next()) {
-                String candidateInfo = "   " + resultSet.getString("cand_name") + "      " + resultSet.getInt("cand_ID") ;
+                String candidateInfo = "   " + resultSet.getString("cand_name") + "      "
+                        + resultSet.getInt("cand_ID");
                 candidates.add(candidateInfo);
-                
-            
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
-        
+
     }
-    
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            adminPageshow votingPage = new adminPageshow(new Connection());
-            votingPage.setVisible(true);
-        });
-    }*/
+
+    /*
+     * public static void main(String[] args) {
+     * SwingUtilities.invokeLater(() -> {
+     * adminPageshow votingPage = new adminPageshow(new Connection());
+     * votingPage.setVisible(true);
+     * });
+     * }
+     */
 }

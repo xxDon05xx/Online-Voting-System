@@ -1,0 +1,21 @@
+{
+    "name": "online-voting-system",
+    "version": "1.0.0",
+    "description": "A secure Online Voting System built with Java Swing and MySQL",
+    "main": "swingTrial2.java",
+    "scripts": {
+        "start": "java -cp \".:lib/mysql-connector-j-9.1.0.jar\" swingTrial2",
+        "start:win": "java -cp \".;lib/mysql-connector-j-9.1.0.jar\" swingTrial2",
+        "compile": "javac -cp \".:lib/mysql-connector-j-9.1.0.jar\" *.java",
+        "compile:win": "javac -cp \".;lib/mysql-connector-j-9.1.0.jar\" *.java",
+        "db:up": "docker compose up -d",
+        "db:down": "docker compose down",
+        "db:logs": "docker compose logs -f"
+    },
+    "dependencies": {},
+    "engines": {
+        "java": ">=21.0"
+    },
+    "author": "Dino",
+    "license": "ISC"
+}
